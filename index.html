@@ -8,7 +8,7 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <h1> Manual Road Network Creation </h1>
+  <h1> Scene3D  </h1>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/102/three.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/2.1.2/TweenMax.min.js"></script>
@@ -62,6 +62,18 @@
           camera.updateProjectionMatrix();
       });
 
+
+
+      // Creates grid.
+      const size = 200;
+      const divisions = 200;
+
+      let gridHelper = new THREE.GridHelper( size, divisions );
+      gridHelper.position.x = 0;
+      gridHelper.position.y = -75;
+      gridHelper.position.z = 0;
+      // gridHelper.geometry.rotateX(Math.PI / 2);
+      scene.add( gridHelper );
 
       // Call MapControls which by default executes the OrbitControl
       const controls = new THREE.MapControls(camera, renderer.domElement);
@@ -127,6 +139,9 @@
         raycaster.setFromCamera(mouse, camera);
         var intersects = raycaster.intersectObjects(scene.children, true);
         for (var i = 0 ; i < intersects.length; i++) {
+          if( intersects[i].object == gridHelper) {
+            continue;
+          }
           intersects[i].object.material.color.set(0xff0000); // intersects[i] will have the mesh in esence
 
           // from gsap / TweenMax library: See script include.
